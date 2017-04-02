@@ -39,7 +39,7 @@ public class Main {
                 throw new NumberFormatException();
             }
         } catch(NumberFormatException e) {
-            System.out.println("The mandatory 'fund' argument is invalid.");
+            System.out.println("The mandatory 'fund' argument is invalid or missing. Using default value '10' (DSK Rastej)");
         }
 
 //        System.out.println("Fund: " + fond);

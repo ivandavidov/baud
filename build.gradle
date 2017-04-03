@@ -17,7 +17,7 @@ jar {
     }
 }
 
-task extlibs(type: Copy) {
-    into 'build/extlib'
+task baud (type: Copy, dependsOn: 'build') {
+    into 'build/libs'
     from configurations.compile
 }

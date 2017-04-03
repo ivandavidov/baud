@@ -1,3 +1,3 @@
 @echo off
 
-java -cp build\extlib\*;build\libs\* com.idzona.baud.Main %1
+java -cp build\libs\* com.idzona.baud.Main %1

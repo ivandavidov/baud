@@ -5,7 +5,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -13,9 +16,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
@@ -39,6 +40,7 @@ public class Main {
                 throw new NumberFormatException();
             }
         } catch(NumberFormatException e) {
+            fond = 10;
             System.out.println("The mandatory 'fund' argument is invalid or missing. Using default value '10' (DSK Rastej)");
         }
 

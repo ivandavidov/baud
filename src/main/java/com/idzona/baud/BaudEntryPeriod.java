@@ -1,8 +1,8 @@
 package com.idzona.baud;
 
 public class BaudEntryPeriod implements Comparable<BaudEntryPeriod> {
-    BaudEntryDay baudBegin;
-    BaudEntryDay baudEnd;
+    private BaudEntryDay baudBegin;
+    private BaudEntryDay baudEnd;
 
     public static final String CSV_HEADER = "Дата - начало,НСА (общо) - начало,НСА (дял) - начало,Дялове - начало,Дата - край,НСА (общо) - край,НСА (дял) - край,Дялове - край";
 

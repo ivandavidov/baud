@@ -15,6 +15,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -23,8 +24,30 @@ import java.util.TreeSet;
 
 public class Main {
     public static void main(String... args) {
+        boolean test = false;
+
         int fond = 10;
         String arg = null;
+
+        if(test) {
+            System.out.println("*** Test mode BEGIN ***");
+
+            try {
+                Main main = new Main();
+
+                File xls = new File("C:/projects/baud/capman_max.xls");
+                BaudData baudData = main.generateBaudEntries(xls);
+                Set<BaudEntryPeriod> weekPeriods = main.generateWeekPeriods(baudData.getBaudEntries());
+                main.exportBaudPeriodsCsv("weekly.csv", weekPeriods);
+                main.exportBaudPeriodsJs("weekly.js", weekPeriods, baudData.getFond());
+
+            } catch(Exception e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("*** Test mode END ***");
+                System.exit(0);
+            }
+        }
 
         if(args.length <= 0) {
             System.out.print("Vavedete nomer na fond: ");
@@ -55,13 +78,18 @@ public class Main {
             System.exit(-1);
         }
 
-        Set<BaudEntryDay> baudEntries = null;
+        BaudData baudData = null;
 
         try {
-            baudEntries = main.generateBaudEntries(xls);
+            baudData = main.generateBaudEntries(xls);
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(-1);
+        }
+
+        Set<BaudEntryDay> baudEntries = null;
+        if(baudData != null) {
+            baudEntries = baudData.getBaudEntries();
         }
 
         if(baudEntries == null || baudEntries.size() <= 0) {
@@ -70,10 +98,51 @@ public class Main {
         }
 
         main.exportAll(baudEntries);
-        main.exportPerWeek(baudEntries);
+
+        Set<BaudEntryPeriod> periodBauds = main.generateWeekPeriods(baudEntries);
+        main.exportBaudPeriodsCsv("weekly.csv", periodBauds);
+        main.exportBaudPeriodsJs("weekly.js", periodBauds, baudData.getFond());
     }
 
-    private void exportPerWeek(Set<BaudEntryDay> baudEntries) {
+    private void exportBaudPeriodsJs(String fileName, Set<BaudEntryPeriod> periods, String fond) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(4);
+        nf.setGroupingUsed(false);
+
+        File f = new File(fileName);
+        try(BufferedWriter bw = Files.newBufferedWriter(f.toPath(), Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
+            bw.write("o={};o.f='");
+            bw.write(fond);
+            bw.write("';o.b=[];o.e=[];");
+
+            int i = 0;
+            for(BaudEntryPeriod period : periods) {
+                bw.write("o.b[" + i + "]={d:'");
+                bw.write(formatter.format(period.getBaudBegin().getDate()) + "',n:");
+                bw.write(nf.format(period.getBaudBegin().getTotalNav()) + ",p:");
+                bw.write(nf.format(period.getBaudBegin().getSharePrice()) + ",s:");
+                bw.write(nf.format(period.getBaudBegin().getTotalShares()) + "};");
+
+                i++;
+            }
+
+            i = 0;
+            for(BaudEntryPeriod period : periods) {
+                bw.write("o.e[" + i + "]={d:'");
+                bw.write(formatter.format(period.getBaudEnd().getDate()) + "',n:");
+                bw.write(nf.format(period.getBaudEnd().getTotalNav()) + ",p:");
+                bw.write(nf.format(period.getBaudEnd().getSharePrice()) + ",s:");
+                bw.write(nf.format(period.getBaudEnd().getTotalShares()) + "};");
+
+                i++;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Set<BaudEntryPeriod> generateWeekPeriods(Set<BaudEntryDay> baudEntries) {
         Set<BaudEntryPeriod> periodBauds = new TreeSet<>();
 
         BaudEntryDay[] bauds = new BaudEntryDay[baudEntries.size()];
@@ -120,21 +189,19 @@ public class Main {
             periodBauds.add(period);
         }
 
-        exportBaudPeriods("weekly.csv", periodBauds);
+        return periodBauds;
     }
 
-    private void exportBaudPeriods(String fileName, Set<BaudEntryPeriod> periods) {
+    private void exportBaudPeriodsCsv(String fileName, Set<BaudEntryPeriod> periods) {
         File f = new File(fileName);
         try(BufferedWriter bw = Files.newBufferedWriter(f.toPath(), Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
             bw.write(BaudEntryPeriod.CSV_HEADER);
             bw.newLine();
-//            System.out.println(BaudEntryDay.CSV_HEADER);
             for(BaudEntryPeriod period : periods) {
                 bw.write(period.getBaudBegin().toCsvString());
                 bw.write(',');
                 bw.write(period.getBaudEnd().toCsvString());
                 bw.newLine();
-//                System.out.println(baudEntryDay.toCsvString());
             }
         } catch(Exception e) {
             e.printStackTrace();
@@ -164,13 +231,18 @@ public class Main {
 
     }
 
-    private Set<BaudEntryDay> generateBaudEntries(File xls) throws Exception {
+    private BaudData generateBaudEntries(File xls) throws Exception {
+        BaudData baudData = new BaudData();
         Set<BaudEntryDay> baudEntries = new TreeSet<>();
+        baudData.setBaudEntries(baudEntries);
 
         FileInputStream fis = new FileInputStream(xls);
 
         Workbook wb = new HSSFWorkbook(fis);
         Sheet sheet = wb.getSheetAt(0);
+
+        String name = sheet.getRow(1).getCell(0).getStringCellValue();
+        baudData.setFond(name);
 
         for(int i = 4; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
@@ -196,7 +268,7 @@ public class Main {
 
         wb.close();
 
-        return baudEntries;
+        return baudData;
     }
 
     private File downloadFond(int fond) {

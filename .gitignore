@@ -5,3 +5,4 @@ build/**
 baud.exe
 *.xls
 weekly.js
+test/**

@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>Дялове на договорни фондове</title>
+  <script>
+    function menu(page) {
+      var ifr = document.getElementById('ifr');
+      ifr.src = page;
+    }
+  </script>
+</head>
+<body>
+  <p align="center">
+    <a href="#" onclick="javascript:menu('advans_i.html'); return false;">Адванс Инвест</a> |
+    <a href="#" onclick="javascript:menu('capman_m.html'); return false;">Капман Макс</a> |
+    <a href="#" onclick="javascript:menu('ccb_l.html'); return false;">ЦКБ Лидер</a> |
+    <a href="#" onclick="javascript:menu('dsk_b.html'); return false;">ДСК Баланс</a> |
+    <a href="#" onclick="javascript:menu('dsk_r.html'); return false;">ДСК Растеж</a> |
+    <a href="#" onclick="javascript:menu('elana_b_e.html'); return false;">Елана Балансиран Еврофонд</a> |
+    <a href="#" onclick="javascript:menu('elana_b.html'); return false;">Елана България</a> |
+    <a href="#" onclick="javascript:menu('ubb_p_a.html'); return false;">ОББ Премиум Акции</a> |
+    <a href="#" onclick="javascript:menu('ug_m.html'); return false;">Юг Маркет Максимум</a>
+  </p>
+  <iframe id="ifr" src="ubb_p_a.html" style="height: 100%; width: 100%; border: none;"</iframe>
+</body>
+</html>

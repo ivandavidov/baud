@@ -6,3 +6,4 @@ baud.exe
 *.xls
 weekly.js
 test/**
+website/*_*.js

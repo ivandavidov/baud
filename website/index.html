@@ -5,96 +5,59 @@
     function menu(page) {
       var ifr = document.getElementById('ifr');
       ifr.src = page;
+      return false;
     }
   </script>
   <link rel="stylesheet" type="text/css" href="style.css"></link>
-  <link rel="stylesheet" href="css_files/mbcsmbmcp.css" type="text/css" />
 </head>
 <body>
-  <div style="position: absolute; left: 0px; top: 0px;">
-    <!-- Navigation menus created with the free version of Easy CSS Menu downloaded from www.easycssmenu.com
-         You are free to use this menu code for personal, non-commercial use only. Any other use is a serious violation of copyright laws.
-         You are required to retain this comment block in your website code in an unchanged fashion.
-         The above limitations do not apply on menus created with the paid version of the software. -->
-    <div id="mbmcpebul_wrapper" style="max-width: 960px;">
-      <ul id="mbmcpebul_table" class="mbmcpebul_menulist css_menu">
-        <li><div class="buttonbg gradient_button gradient27"><div class="arrow"><a>ДСК</a></div></div>
-          <ul class="gradient_menu gradient64">
-            <li class="gradient_menuitem gradient31 first_item">
-              <a href="#" onclick="javascript:menu('dsk_b.html'); return false;" title="">ДСК Баланс</a>
-            </li>
-            <li class="gradient_menuitem gradient31 last_item">
-              <a href="#" onclick="javascript:menu('dsk_r.html'); return false;" title="">ДСК Растеж</a>
-            </li>
-          </ul>
-        </li>
-        <li><div class="buttonbg gradient_button gradient27"><div class="arrow"><a>Елана</a></div></div>
-          <ul class="gradient_menu gradient64">
-            <li class="gradient_menuitem gradient31 first_item">
-              <a href="#" onclick="javascript:menu('elana_b_e.html'); return false;" title="">Елана Балансиран Евро Фонд</a>
-            </li>
-            <li class="gradient_menuitem gradient31 last_item">
-              <a href="#" onclick="javascript:menu('elana_b.html'); return false;" title="">Елана България</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <div class="buttonbg gradient_button gradient27" style="width: 85px;"><div class="arrow"><a>Капман</a></div></div>
-          <ul class="gradient_menu gradient33">
-            <li class="gradient_menuitem gradient31 first_item last_item">
-              <a href="#" onclick="javascript:menu('capman_m.html'); return false;" title="">Капман Макс</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <div class="buttonbg gradient_button gradient27" style="width: 85px;"><div class="arrow"><a>Карол</a></div></div>
-          <ul class="gradient_menu gradient33">
-            <li class="gradient_menuitem gradient31 first_item last_item">
-              <a href="#" onclick="javascript:menu('advans_i.html'); return false;" title="">Адванс Инвест</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <div class="buttonbg gradient_button gradient27" style="width: 85px;"><div class="arrow"><a>ОББ</a></div></div>
-          <ul class="gradient_menu gradient33">
-            <li class="gradient_menuitem gradient31 first_item last_item">
-              <a href="#" onclick="javascript:menu('ubb_p_a.html'); return false;" title="">ОББ Премиум Акции</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <div class="buttonbg gradient_button gradient27" style="width: 85px;"><div class="arrow"><a>ЦКБ</a></div></div>
-          <ul class="gradient_menu gradient33">
-            <li class="gradient_menuitem gradient31 first_item last_item">
-              <a href="#" onclick="javascript:menu('ccb_l.html'); return false;" title="">ЦКБ Лидер</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <div class="buttonbg gradient_button gradient27" style="width: 110px;"><div class="arrow"><a>Юг Маркет</a></div></div>
-          <ul class="gradient_menu gradient33">
-            <li class="gradient_menuitem gradient31 first_item last_item">
-              <a href="#" onclick="javascript:menu('ug_m.html'); return false;" title="">Юг Маркет Максимум</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>  
-  <div class="menu" style="display: none;">
-    <a href="#" class="link" onclick="javascript:menu('advans_i.html'); return false;">Адванс Инвест</a> |
-    <a href="#" class="link" onclick="javascript:menu('capman_m.html'); return false;">Капман Макс</a> |
-    <a href="#" class="link" onclick="javascript:menu('ccb_l.html'); return false;">ЦКБ Лидер</a> |
-    <a href="#" class="link" onclick="javascript:menu('dsk_b.html'); return false;">ДСК Баланс</a> |
-    <a href="#" class="link" onclick="javascript:menu('dsk_r.html'); return false;">ДСК Растеж</a> |
-    <a href="#" class="link" onclick="javascript:menu('elana_b_e.html'); return false;">Елана Балансиран Еврофонд</a> |
-    <a href="#" class="link" onclick="javascript:menu('elana_b.html'); return false;">Елана България</a> |
-    <a href="#" class="link" onclick="javascript:menu('ubb_p_a.html'); return false;">ОББ Премиум Акции</a> |
-    <a href="#" class="link" onclick="javascript:menu('ug_m.html'); return false;">Юг Маркет Максимум</a>
-  </div>
-  <script type="text/javascript" src="index_files/mbjsmbmcp.js"></script>
-  <iframe id="ifr" src="ubb_p_a.html" style="height: 100%; width: 100%; border: none;"></iframe>
-  <div class="footer">
+  <nav id="primary_nav_wrap">
+    <ul>
+      <li><a href="#" onclick="javascript:return false;">ДСК</a>
+        <ul>
+          <li><a href="#" onclick="javascript:return menu('dsk_b.html');">ДСК Баланс</a></li>
+          <li><a href="#" onclick="javascript:return menu('dsk_r.html');">ДСК Растеж</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="javascript:return false;">Елана</a>
+        <ul>
+          <li><a href="#" onclick="javascript:return menu('elana_b_e.html');">Елана Балансиран Евро Фонд</a></li>
+          <li><a href="#" onclick="javascript:return menu('elana_b.html');">Елана България</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="javascript:return false;">Капман</a>
+        <ul>
+          <li><a href="#" onclick="javascript:return menu('capman_c.html');">Капман Капитал</a></li>
+          <li><a href="#" onclick="javascript:return menu('capman_m.html');">Капман Макс</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="javascript:return false;">Карол</a>
+        <ul>
+          <li><a href="#" onclick="javascript:return menu('advans_i.html');">Адванс Инвест</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="javascript:return false;">ОББ</a>
+        <ul>
+          <li><a href="#" onclick="javascript:return menu('ubb_b.html');">ОББ Балансиран Фонд</a></li>
+          <li><a href="#" onclick="javascript:return menu('ubb_p_a.html');">ОББ Премиум Акции</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="javascript:return false;">ЦКБ</a>
+        <ul>
+          <li><a href="#" onclick="javascript:return menu('ccb_a.html');">ЦКБ Актив</a></li>
+          <li><a href="#" onclick="javascript:return menu('ccb_l.html');">ЦКБ Лидер</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="javascript:return false;">Юг Маркет</a>
+        <ul>
+          <li><a href="#" onclick="javascript:return menu('ug_m.html');">Юг Маркет Максимум</a></li>
+          <li><a href="#" onclick="javascript:return menu('ug_o.html');">Юг Маркет Оптимум</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <iframe id="ifr" src="ubb_p_a.html"></iframe>
+  <div id="footer">
     За контакти: <a target="_blank" href="http://linkedin.com/in/ivandavidov" class="link">Иван Давидов</a>
   </div>
 </body>

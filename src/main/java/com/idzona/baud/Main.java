@@ -35,12 +35,16 @@ public class Main {
             try {
                 Main main = new Main();
 
-                File xls = new File("C:/projects/baud/capman_max.xls");
+                File xls = new File("C:/projects/baud/ubb_p_a.xls");
                 BaudData baudData = main.generateBaudEntries(xls);
+
+                // Daily
+                main.exportAll("daily.csv", baudData.getBaudEntries());
+
+                // Weekly
                 Set<BaudEntryPeriod> weekPeriods = main.generateWeekPeriods(baudData.getBaudEntries());
                 main.exportBaudPeriodsCsv("weekly.csv", weekPeriods);
                 main.exportBaudPeriodsJs("weekly.js", weekPeriods, baudData.getFond());
-
             } catch(Exception e) {
                 e.printStackTrace();
             } finally {
@@ -97,7 +101,7 @@ public class Main {
             System.exit(-1);
         }
 
-        main.exportAll(baudEntries);
+        main.exportAll("daily.csv", baudEntries);
 
         Set<BaudEntryPeriod> periodBauds = main.generateWeekPeriods(baudEntries);
         main.exportBaudPeriodsCsv("weekly.csv", periodBauds);
@@ -182,12 +186,11 @@ public class Main {
         }
 
         // Handle edge case where we have less than 7 days for the last week.
-        if(!end.equals(begin)) {
-            BaudEntryPeriod period = new BaudEntryPeriod();
-            period.setBaudBegin(begin);
-            period.setBaudEnd(end);
-            periodBauds.add(period);
-        }
+        // In worst case this will be the same as last => will not be included.
+        BaudEntryPeriod period = new BaudEntryPeriod();
+        period.setBaudBegin(begin);
+        period.setBaudEnd(end);
+        periodBauds.add(period);
 
         return periodBauds;
     }
@@ -208,8 +211,8 @@ public class Main {
         }
     }
 
-    private void exportAll(Set<BaudEntryDay> baudEntries) {
-        File f = new File("daily.csv");
+    private void exportAll(String fileName, Set<BaudEntryDay> baudEntries) {
+        File f = new File(fileName);
         try(BufferedWriter bw = Files.newBufferedWriter(f.toPath(), Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
             bw.write(BaudEntryDay.CSV_HEADER);
             bw.newLine();

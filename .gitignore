@@ -2,8 +2,8 @@
 .idea/**
 build/**
 *.csv
-baud.exe
 *.xls
 weekly.js
 test/**
 website/*_*.js
+curl/**

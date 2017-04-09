@@ -6,7 +6,7 @@ PATH=$JAVA_HOME/bin:$PATH
 cd ..
 
 if [ "$1" = "" ] ; then
-  echo "Parameter 'fond' is missing."
+  echo "Parameter 'fundId' is missing."
   exit 1
 fi;
 

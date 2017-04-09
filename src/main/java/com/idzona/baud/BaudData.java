@@ -3,15 +3,15 @@ package com.idzona.baud;
 import java.util.Set;
 
 public class BaudData {
-    private String fond;
+    private String fundId;
     private Set<BaudEntryDay> baudEntries;
 
-    public String getFond() {
-        return fond;
+    public String getFundId() {
+        return fundId;
     }
 
-    public void setFond(String fond) {
-        this.fond = fond;
+    public void setFundId(String fundId) {
+        this.fundId = fundId;
     }
 
     public Set<BaudEntryDay> getBaudEntries() {

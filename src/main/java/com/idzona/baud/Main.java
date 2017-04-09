@@ -23,61 +23,49 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Main {
+    private static final String URL_PATTERN = "http://baud.bg/listing/excel.php?start_date={start}&end_date={end}&fond={fond}";
+
+    private Main() {}
+
     public static void main(String... args) {
-        boolean test = false;
+        int fundId;
+        String arg;
 
-        int fond = 10;
-        String arg = null;
-
-        if(test) {
-            System.out.println("*** Test mode BEGIN ***");
-
-            try {
-                Main main = new Main();
-
-                File xls = new File("C:/projects/baud/ubb_p_a.xls");
-                BaudData baudData = main.generateBaudEntries(xls);
-
-                // Daily
-                main.exportAll("daily.csv", baudData.getBaudEntries());
-
-                // Weekly
-                Set<BaudEntryPeriod> weekPeriods = main.generateWeekPeriods(baudData.getBaudEntries());
-                main.exportBaudPeriodsCsv("weekly.csv", weekPeriods);
-                main.exportBaudPeriodsJs("weekly.js", weekPeriods, baudData.getFond());
-            } catch(Exception e) {
-                e.printStackTrace();
-            } finally {
-                System.out.println("*** Test mode END ***");
-                System.exit(0);
-            }
-        }
+        Main main = new Main();
 
         if(args.length <= 0) {
-            System.out.print("Vavedete nomer na fond: ");
+            System.out.print("Enter mutual fund ID: ");
             Scanner sc = new Scanner(System.in);
             arg = sc.nextLine();
         } else {
             arg = args[0];
         }
 
+        // Test block.
+        if(arg.equalsIgnoreCase("test")) {
+            main.test();
+            System.exit(0);
+        }
+
+        // Parse the fund ID. Use '10' as default value.
         try {
-            fond = Integer.parseInt(arg);
-            if(fond < 0) {
+            fundId = Integer.parseInt(arg);
+            if(fundId < 0) {
                 throw new NumberFormatException();
             }
         } catch(NumberFormatException e) {
-            fond = 10;
-            System.out.println("The mandatory 'fund' argument is invalid or missing. Using default value '10' (DSK Rastej)");
+            fundId = 10;
+            System.out.println("The mandatory 'fundId' argument is invalid or missing. Using default value '10' (DSK Rastej)");
         }
 
-//        System.out.println("Fund: " + fond);
+        // Main processing.
+        main.process(fundId);
+    }
 
-        Main main = new Main();
+    private void process(int fundId) {
+        File xlsFile = downloadFund(fundId);
 
-        File xls = main.downloadFond(fond);
-
-        if(xls == null) {
+        if(xlsFile == null) {
             System.out.println("Excel file is not available. Cannot continue");
             System.exit(-1);
         }
@@ -85,7 +73,7 @@ public class Main {
         BaudData baudData = null;
 
         try {
-            baudData = main.generateBaudEntries(xls);
+            baudData = generateBaudEntries(xlsFile);
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(-1);
@@ -101,11 +89,34 @@ public class Main {
             System.exit(-1);
         }
 
-        main.exportAll("daily.csv", baudEntries);
+        // Export daily.
+        exportDailyCsv("daily.csv", baudEntries);
 
-        Set<BaudEntryPeriod> periodBauds = main.generateWeekPeriods(baudEntries);
-        main.exportBaudPeriodsCsv("weekly.csv", periodBauds);
-        main.exportBaudPeriodsJs("weekly.js", periodBauds, baudData.getFond());
+        // Export weekly.
+        Set<BaudEntryPeriod> periodBauds = generateWeekPeriods(baudEntries);
+        exportBaudPeriodsCsv("weekly.csv", periodBauds);
+        exportBaudPeriodsJs("weekly.js", periodBauds, baudData.getFundId());
+    }
+
+    private void test() {
+        System.out.println("*** Test mode BEGIN ***");
+
+        try {
+            File xls = new File("C:/projects/baud/ubb_p_a.xls");
+            BaudData baudData = generateBaudEntries(xls);
+
+            // Daily
+            exportDailyCsv("daily.csv", baudData.getBaudEntries());
+
+            // Weekly
+            Set<BaudEntryPeriod> weekPeriods = generateWeekPeriods(baudData.getBaudEntries());
+            exportBaudPeriodsCsv("weekly.csv", weekPeriods);
+            exportBaudPeriodsJs("weekly.js", weekPeriods, baudData.getFundId());
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("*** Test mode END ***");
+        }
     }
 
     private void exportBaudPeriodsJs(String fileName, Set<BaudEntryPeriod> periods, String fond) {
@@ -116,10 +127,9 @@ public class Main {
 
         File f = new File(fileName);
         try(BufferedWriter bw = Files.newBufferedWriter(f.toPath(), Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
-            bw.write("o={};o.f='");
-            bw.write(fond);
-            bw.write("';o.b=[];o.e=[];");
+            bw.write("o={};o.f='" + fond + "';");
 
+            bw.write("o.b=[];");
             int i = 0;
             for(BaudEntryPeriod period : periods) {
                 bw.write("o.b[" + i + "]={d:'");
@@ -127,10 +137,10 @@ public class Main {
                 bw.write(nf.format(period.getBaudBegin().getTotalNav()) + ",p:");
                 bw.write(nf.format(period.getBaudBegin().getSharePrice()) + ",s:");
                 bw.write(nf.format(period.getBaudBegin().getTotalShares()) + "};");
-
                 i++;
             }
 
+            bw.write("o.e=[];");
             i = 0;
             for(BaudEntryPeriod period : periods) {
                 bw.write("o.e[" + i + "]={d:'");
@@ -138,7 +148,6 @@ public class Main {
                 bw.write(nf.format(period.getBaudEnd().getTotalNav()) + ",p:");
                 bw.write(nf.format(period.getBaudEnd().getSharePrice()) + ",s:");
                 bw.write(nf.format(period.getBaudEnd().getTotalShares()) + "};");
-
                 i++;
             }
         } catch(Exception e) {
@@ -162,8 +171,6 @@ public class Main {
         int normalizer = begin.getDate().getDayOfWeek().getValue();
         LocalDate nextWeek = begin.getDate().minusDays(normalizer).plusWeeks(1);
 
-//        System.out.println(nextWeek);
-
         for(i = 1; i < bauds.length; i++) {
             BaudEntryDay current = bauds[i];
 
@@ -186,7 +193,7 @@ public class Main {
         }
 
         // Handle edge case where we have less than 7 days for the last week.
-        // In worst case this will be the same as last => will not be included.
+        // In worst case this will be the same as last => will not be exported.
         BaudEntryPeriod period = new BaudEntryPeriod();
         period.setBaudBegin(begin);
         period.setBaudEnd(end);
@@ -201,9 +208,7 @@ public class Main {
             bw.write(BaudEntryPeriod.CSV_HEADER);
             bw.newLine();
             for(BaudEntryPeriod period : periods) {
-                bw.write(period.getBaudBegin().toCsvString());
-                bw.write(',');
-                bw.write(period.getBaudEnd().toCsvString());
+                bw.write(period.toCsvString());
                 bw.newLine();
             }
         } catch(Exception e) {
@@ -211,27 +216,18 @@ public class Main {
         }
     }
 
-    private void exportAll(String fileName, Set<BaudEntryDay> baudEntries) {
+    private void exportDailyCsv(String fileName, Set<BaudEntryDay> baudEntries) {
         File f = new File(fileName);
         try(BufferedWriter bw = Files.newBufferedWriter(f.toPath(), Charset.forName("UTF-8"), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
             bw.write(BaudEntryDay.CSV_HEADER);
             bw.newLine();
-//            System.out.println(BaudEntryDay.CSV_HEADER);
             for(BaudEntryDay baudEntryDay : baudEntries) {
                 bw.write(baudEntryDay.toCsvString());
                 bw.newLine();
-//                System.out.println(baudEntryDay.toCsvString());
             }
         } catch(Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void analyze(Set<BaudEntryDay> baudEntries) {
-        BaudEntryDay[] bauds = (BaudEntryDay[])baudEntries.toArray();
-
-        double lastShares = bauds[bauds.length - 1].getTotalShares();
-
     }
 
     private BaudData generateBaudEntries(File xls) throws Exception {
@@ -245,26 +241,21 @@ public class Main {
         Sheet sheet = wb.getSheetAt(0);
 
         String name = sheet.getRow(1).getCell(0).getStringCellValue();
-        baudData.setFond(name);
+        baudData.setFundId(name);
 
         for(int i = 4; i <= sheet.getLastRowNum(); i++) {
             Row row = sheet.getRow(i);
 
             String date = row.getCell(0).getStringCellValue();
-//            System.out.println("*** DATE *** " + date);
 
             LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
             double totalNav = row.getCell(5).getNumericCellValue();
             double sharePrice = row.getCell(6).getNumericCellValue();
 
-//            System.out.println("Date: " + localDate.toString() + ", totalNav: " + totalNav + ", sharePrice: " + sharePrice);
-
             BaudEntryDay baudEntryDay = new BaudEntryDay();
             baudEntryDay.setDate(localDate);
             baudEntryDay.setTotalNav(totalNav);
             baudEntryDay.setSharePrice(sharePrice);
-
-//            System.out.println(baudEntryDay.toString());
 
             baudEntries.add(baudEntryDay);
         }
@@ -274,9 +265,8 @@ public class Main {
         return baudData;
     }
 
-    private File downloadFond(int fond) {
+    private File downloadFund(int fond) {
         File xls = null;
-        String urlPattern = "http://baud.bg/listing/excel.php?start_date={start}&end_date={end}&fond={fond}";
 
         LocalDate dateEnd = LocalDate.now();
         LocalDate dateStart = dateEnd.minusYears(1);
@@ -286,21 +276,13 @@ public class Main {
         String dateStartFormatted = dateStart.format(formatter);
         String dateEndFormatted = dateEnd.format(formatter);
 
-//        System.out.println("Start date: " + dateStartFormatted);
-//        System.out.println("End date: " + dateEndFormatted);
-
-        String url = urlPattern.replace("{start}", dateStartFormatted)
+        String url = URL_PATTERN.replace("{start}", dateStartFormatted)
                 .replace("{end}", dateEndFormatted)
                 .replace("{fond}", Integer.toString(fond));
-
-//        System.out.println("XLS URL: " + url);
 
         try {
             xls = File.createTempFile("baud-", ".xls");
             xls.deleteOnExit();
-
-            String tmpFileName = xls.getCanonicalPath();
-//            System.out.println("Temporary file: " + tmpFileName);
 
             URL xlsUrl = new URL(url);
             ReadableByteChannel rbc = Channels.newChannel(xlsUrl.openStream());

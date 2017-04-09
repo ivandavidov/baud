@@ -1,65 +1,63 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Дялове на договорни фондове</title>
-  <script>
-    function menu(page) {
-      var ifr = document.getElementById('ifr');
-      ifr.src = page;
-      return false;
-    }
-  </script>
-  <link rel="stylesheet" type="text/css" href="style.css"></link>
+  <title>Договорни фондове - графики</title>
+  <script src="js/main.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css"></link>
 </head>
 <body>
-  <nav id="primary_nav_wrap">
-    <ul>
-      <li><a href="#" onclick="javascript:return false;">ДСК</a>
-        <ul>
-          <li><a href="#" onclick="javascript:return menu('dsk_b.html');">ДСК Баланс</a></li>
-          <li><a href="#" onclick="javascript:return menu('dsk_r.html');">ДСК Растеж</a></li>
-        </ul>
-      </li>
-      <li><a href="#" onclick="javascript:return false;">Елана</a>
-        <ul>
-          <li><a href="#" onclick="javascript:return menu('elana_b_e.html');">Елана Балансиран Евро Фонд</a></li>
-          <li><a href="#" onclick="javascript:return menu('elana_b.html');">Елана България</a></li>
-        </ul>
-      </li>
-      <li><a href="#" onclick="javascript:return false;">Капман</a>
-        <ul>
-          <li><a href="#" onclick="javascript:return menu('capman_c.html');">Капман Капитал</a></li>
-          <li><a href="#" onclick="javascript:return menu('capman_m.html');">Капман Макс</a></li>
-        </ul>
-      </li>
-      <li><a href="#" onclick="javascript:return false;">Карол</a>
-        <ul>
-          <li><a href="#" onclick="javascript:return menu('advans_i.html');">Адванс Инвест</a></li>
-        </ul>
-      </li>
-      <li><a href="#" onclick="javascript:return false;">ОББ</a>
-        <ul>
-          <li><a href="#" onclick="javascript:return menu('ubb_b.html');">ОББ Балансиран Фонд</a></li>
-          <li><a href="#" onclick="javascript:return menu('ubb_p_a.html');">ОББ Премиум Акции</a></li>
-        </ul>
-      </li>
-      <li><a href="#" onclick="javascript:return false;">ЦКБ</a>
-        <ul>
-          <li><a href="#" onclick="javascript:return menu('ccb_a.html');">ЦКБ Актив</a></li>
-          <li><a href="#" onclick="javascript:return menu('ccb_l.html');">ЦКБ Лидер</a></li>
-        </ul>
-      </li>
-      <li><a href="#" onclick="javascript:return false;">Юг Маркет</a>
-        <ul>
-          <li><a href="#" onclick="javascript:return menu('ug_m.html');">Юг Маркет Максимум</a></li>
-          <li><a href="#" onclick="javascript:return menu('ug_o.html');">Юг Маркет Оптимум</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
-  <iframe id="ifr" src="ubb_p_a.html"></iframe>
-  <div id="footer">
-    За контакти: <a target="_blank" href="http://linkedin.com/in/ivandavidov" class="link">Иван Давидов</a>
-  </div>
+  <div id="all">
+    <nav id="primary_nav_wrap">
+      <ul>
+        <li><a href="#" onclick="javascript:return false;">ДСК</a>
+          <ul>
+            <li><a href="#" onclick="javascript:return menu('dsk_b');">ДСК Баланс</a></li>
+            <li><a href="#" onclick="javascript:return menu('dsk_r');">ДСК Растеж</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="javascript:return false;">Елана</a>
+          <ul>
+            <li><a href="#" onclick="javascript:return menu('elana_b_e');">Елана Балансиран Евро Фонд</a></li>
+            <li><a href="#" onclick="javascript:return menu('elana_b');">Елана България</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="javascript:return false;">Капман</a>
+          <ul>
+            <li><a href="#" onclick="javascript:return menu('capman_c');">Капман Капитал</a></li>
+            <li><a href="#" onclick="javascript:return menu('capman_m');">Капман Макс</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="javascript:return false;">Карол</a>
+          <ul>
+            <li><a href="#" onclick="javascript:return menu('advans_i_e');">Адванс Източна Европа</a></li>
+            <li><a href="#" onclick="javascript:return menu('advans_i');">Адванс Инвест</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="javascript:return false;">ОББ</a>
+          <ul>
+            <li><a href="#" onclick="javascript:return menu('ubb_b');">ОББ Балансиран Фонд</a></li>
+            <li><a href="#" onclick="javascript:return menu('ubb_p_a');">ОББ Премиум Акции</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="javascript:return false;">ЦКБ</a>
+          <ul>
+            <li><a href="#" onclick="javascript:return menu('ccb_a');">ЦКБ Актив</a></li>
+            <li><a href="#" onclick="javascript:return menu('ccb_l');">ЦКБ Лидер</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="javascript:return false;">Юг Маркет</a>
+          <ul>
+            <li><a href="#" onclick="javascript:return menu('ug_m');">Юг Маркет Максимум</a></li>
+            <li><a href="#" onclick="javascript:return menu('ug_o');">Юг Маркет Оптимум</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div id="contact">
+      За контакти: <a target="_blank" href="http://linkedin.com/in/ivandavidov" class="link">Иван Давидов</a>
+    </div>
+    <iframe id="chart" src="#"></iframe>
+    <script>menu('ubb_p_a')</script>
+  </div>  
 </body>
 </html>

@@ -24,9 +24,8 @@ if [ ! -f "weekly.js" ] ; then
   exit 1
 fi;
 
-cp weekly.js website/$2
+cp weekly.js website/data/$2.js
 
-echo "The file '$2' has been processed."
+echo "The file 'website/data/$2.js' has been processed."
 
 cd website_updater
-

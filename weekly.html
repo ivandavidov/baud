@@ -1,12 +1,21 @@
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Графика</title>
   <script src="plotly-latest.min.js"></script>
-  <script src="weekly.js"></script>
-  <script src="website/common.js"></script>
+  <script src="website/js/chart.js"></script>
 </head>
 <body>
-  <div id="linesDiv" style="width:100%;height:100%;"></div>  
-  <script>replot();</script>
+  <div id="linesDiv"></div>  
+  <script>
+    var search = document.location.href;
+    var jsPart = search.split('?')[1];
+
+    if(jsPart != 'weekly') {
+      document.location.href='weekly.html?weekly';
+    }
+    
+    replot('.');
+  </script>
 </body>
 </html>

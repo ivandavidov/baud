@@ -8,8 +8,8 @@ if "%2" == "" goto missing_param
 if exist weekly.js del weekly.js
 call run %1
 if not exist weekly.js goto missing_js
-copy /y weekly.js website\%2
-echo The file '%2' has been processed.
+copy /y weekly.js website\data\%2.js
+echo The file 'website\data\%2.js' has been processed.
 goto exit
 
 :missing_js

@@ -57,8 +57,6 @@ function draw() {
   
   linesDiv.style.width = '100%';
   linesDiv.style.height = '99%';  
-  linesDiv.style.borderStyle = 'groove';
-  linesDiv.style.borderWidth = '1px';  
 
   for(var i = 0; i < o.b.length; i++) {
     trace1.x.push(o.e[i].d);

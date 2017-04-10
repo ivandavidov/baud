@@ -13,114 +13,44 @@
         <ul>
           <li><a href="" onclick="javascript:return false;">ДСК</a>
             <ul>
-              <li><a href="#dsk-balans" onclick="javascript:menu(this.href);">ДСК Баланс</a>
-                <ul>
-                  <li><a href="data/dsk-balans-dnevni-danni.csv" download="dsk-balans-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/dsk-balans-sedmichni-danni.csv" download="dsk-balans-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
-              <li><a href="#dsk-rastej" onclick="javascript:menu(this.href);">ДСК Растеж</a>
-                <ul>
-                  <li><a href="data/dsk-rastej-dnevni-danni.csv" download="dsk-rastej-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/dsk-rastej-sedmichni-danni.csv" download="dsk-rastej-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
+              <script id="dsk-balans">generateMenu('dsk-balans', 'ДСК Баланс');</script>
+              <script id="dsk-rastej">generateMenu('dsk-rastej', 'ДСК Растеж');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Елана</a>
             <ul>
-              <li><a href="#elana-balansiran-evro-fond" onclick="javascript:menu(this.href);">Елана Балансиран Евро Фонд</a>
-                <ul>
-                  <li><a href="data/elana-balansiran-evro-fond-dnevni-danni.csv" download="elana-balansiran-evro-fond-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/elana-balansiran-evro-fond-sedmichni-danni.csv" download="elana-balansiran-evro-fond-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
-              <li><a href="#elana-bulgaria" onclick="javascript:menu(this.href);">Елана България</a>
-                <ul>
-                  <li><a href="data/elana-bulgaria-dnevni-danni.csv" download="elana-bulgaria-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/elana-bulgaria-sedmichni-danni.csv" download="elana-bulgaria-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
+              <script id="elana-balansiran-evro-fond">generateMenu('elana-balansiran-evro-fond', 'Елана Балансиран Евро Фонд');</script>
+              <script id="elana-bulgaria">generateMenu('elana-bulgaria', 'Елана България');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Капман</a>
             <ul>
-              <li><a href="#kapman-kapital" onclick="javascript:menu(this.href);">Капман Капитал</a>
-                <ul>
-                  <li><a href="data/kapman-kapital-dnevni-danni.csv" download="kapman-kapital-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/kapman-kapital-sedmichni-danni.csv" download="kapman-kapital-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
-              <li><a href="#kapman-maks" onclick="javascript:menu(this.href);">Капман Макс</a>
-                <ul>
-                  <li><a href="data/kapman-maks-dnevni-danni.csv" download="kapman-maks-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/kapman-maks-sedmichni-danni.csv" download="kapman-maks-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
+              <script id="kapman-kapital">generateMenu('kapman-kapital', 'Капман Капитал');</script>
+              <script id="kapman-maks">generateMenu('kapman-maks', 'Капман Макс');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Карол</a>
             <ul>
-              <li><a href="#advans-iztochna-evropa" onclick="javascript:menu(this.href);">Адванс Източна Европа</a>
-                <ul>
-                  <li><a href="data/advans-iztochna-evropa-dnevni-danni.csv" download="advans-iztochna-evropa-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/advans-iztochna-evropa-sedmichni-danni.csv" download="advans-iztochna-evropa-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
-              <li><a href="#advans-invest" onclick="javascript:menu(this.href);">Адванс Инвест</a>
-                <ul>
-                  <li><a href="data/advans-invest-dnevni-danni.csv" download="advans-invest-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/advans-invest-sedmichni-danni.csv" download="advans-invest-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
+              <script id="advans-iztochna-evropa">generateMenu('advans-iztochna-evropa', 'Адванс Източна Европа');</script>
+              <script id="advans-invest">generateMenu('advans-invest', 'Адванс Инвест');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">ОББ</a>
             <ul>
-              <li><a href="#obb-balansiran-fond" onclick="javascript:menu(this.href);">ОББ Балансиран Фонд</a>
-                <ul>
-                  <li><a href="data/obb-balansiran-fond-dnevni-danni.csv" download="obb-balansiran-fond-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/obb-balansiran-fond-sedmichni-danni.csv" download="obb-balansiran-fond-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
-              <li><a href="#obb-premium-akcii" onclick="javascript:menu(this.href);">ОББ Премиум Акции</a>
-                <ul>
-                  <li><a href="data/obb-premium-akcii-dnevni-danni.csv" download="obb-premium-akcii-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/obb-premium-akcii-sedmichni-danni.csv" download="obb-premium-akcii-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
+              <script id="obb-balansiran-fond">generateMenu('obb-balansiran-fond', 'ОББ Балансиран Фонд');</script>
+              <script id="obb-premium-akcii">generateMenu('obb-premium-akcii', 'ОББ Премиум Акции');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">ЦКБ</a>
             <ul>
-              <li><a href="#ckb-aktiv" onclick="javascript:menu(this.href);">ЦКБ Актив</a>
-                <ul>
-                  <li><a href="data/ckb-aktiv-dnevni-danni.csv" download="ckb-aktiv-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/ckb-aktiv-sedmichni-danni.csv" download="ckb-aktiv-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
-              <li><a href="#ckb-lider" onclick="javascript:menu(this.href);">ЦКБ Лидер</a>
-                <ul>
-                  <li><a href="data/ckb-lider-dnevni-danni.csv" download="ckb-lider-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/ckb-lider-sedmichni-danni.csv" download="ckb-lider-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
+              <script id="ckb-aktiv">generateMenu('ckb-aktiv', 'ЦКБ Актив');</script>
+              <script id="ckb-lider">generateMenu('ckb-lider', 'ЦКБ Лидер');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Юг Маркет</a>
             <ul>
-              <li><a href="#iug-market-maksimum" onclick="javascript:menu(this.href);">Юг Маркет Максимум</a>
-                <ul>
-                  <li><a href="data/iug-market-maksimum-dnevni-danni.csv" download="iug-market-maksimum-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/iug-market-maksimum-sedmichni-danni.csv" download="iug-market-maksimum-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
-              <li><a href="#iug-market-optimum" onclick="javascript:menu(this.href);">Юг Маркет Оптимум</a>
-                <ul>
-                  <li><a href="data/iug-market-optimum-dnevni-danni.csv" download="iug-market-optimum-dnevni-danni.csv">Дневни данни</a></li>
-                  <li><a href="data/iug-market-optimum-sedmichni-danni.csv" download="iug-market-optimum-sedmichni-danni.csv">Седмични данни</a></li>
-                </ul>
-              </li>
+              <script id="iug-market-maksimum">generateMenu('iug-market-maksimum', 'Юг Маркет Максимум');</script>
+              <script id="iug-market-optimum">generateMenu('iug-market-optimum', 'Юг Маркет Оптимум');</script>
             </ul>
           </li>
         </ul>

@@ -17,7 +17,7 @@ fi;
 
 rm daily.csv
 rm weekly.csv
-rm daily.csv
+rm weekly.js
 
 ./run.sh $1
 

@@ -5,10 +5,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -28,10 +31,17 @@ public class Main {
     private Main() {}
 
     public static void main(String... args) {
-        int fundId;
-        String arg;
-
+        System.out.println("start");
         Main main = new Main();
+
+        if (args.length == 0) { 
+        	main.loadFunds();
+        } else {
+        	//TODO: funds.csv should be updated in cron by "python list-funds.py" 
+        	System.out.println("Funds are loaded from ./funds.csv now, no id supported");
+        }
+        System.exit(0);
+        String arg;
 
         if(args.length <= 0) {
             System.out.print("Enter mutual fund ID: ");
@@ -47,9 +57,14 @@ public class Main {
             System.exit(0);
         }
 
-        // Parse the fund ID. Use '10' as default value.
+        main.loadFund(arg, arg);
+    }
+
+	private void loadFund(String id, String fundPrefix) {
+		int fundId;
+		// Parse the fund ID. Use '10' as default value.
         try {
-            fundId = Integer.parseInt(arg);
+            fundId = Integer.parseInt(id);
             if(fundId < 0) {
                 throw new NumberFormatException();
             }
@@ -59,10 +74,30 @@ public class Main {
         }
 
         // Main processing.
-        main.process(fundId);
-    }
+        process(fundId, fundPrefix);
+	}
 
-    private void process(int fundId) {
+    private void loadFunds() {
+    	try {
+			InputStreamReader r = new InputStreamReader(new FileInputStream("funds.csv"));
+			BufferedReader br = new BufferedReader(r);
+			String line = null;
+			int i = 0;
+			while (null != (line = br.readLine())) {
+				String[] parts = line.split(",");
+				System.out.println(String.join(" --- ", parts));
+				loadFund(parts[0], parts[2]);
+				//if (++i == 3)
+				//	break;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void process(int fundId, String fundPrefix) {
         File xlsFile = downloadFund(fundId);
 
         if(xlsFile == null) {
@@ -90,12 +125,13 @@ public class Main {
         }
 
         // Export daily.
-        exportDailyCsv("daily.csv", baudEntries);
+        String prefix = "website/data/" + fundPrefix;
+        exportDailyCsv(prefix + "-daily.csv", baudEntries);
 
         // Export weekly.
         Set<BaudEntryPeriod> periodBauds = generateWeekPeriods(baudEntries);
-        exportBaudPeriodsCsv("weekly.csv", periodBauds);
-        exportBaudPeriodsJs("weekly.js", periodBauds, baudData.getFundId());
+        exportBaudPeriodsCsv(prefix + "-weekly.csv", periodBauds);
+        exportBaudPeriodsJs(prefix + ".js", periodBauds, baudData.getFundId());
     }
 
     private void test() {

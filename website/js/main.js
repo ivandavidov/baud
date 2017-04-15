@@ -59,3 +59,43 @@ function generateMenu(fundId, fundName) {
   aw.download = fundId + '-sedmichni-danni.csv';
   li3.appendChild(aw);
 }
+
+function parse_csv(content, row_handler) {
+   //console.log('parse_csv', content.indexOf("\n"))
+  var i = 0;
+  do {
+    var nl_pos = content.indexOf("\n", i);
+    var line = nl_pos == -1 ? content.substr(i) : content.substr(i, nl_pos-i);
+    if (i > 0 && line.length) {//skip header
+      var row = line.split(',')
+      //console.log('line ' + row);
+      row_handler(row)
+    }
+    i = nl_pos + 1;
+  } while(nl_pos != -1)
+}
+
+function load_csv(url, done) {
+  jQuery.ajax({url:url, mimeType: 'text/csv', success: done})
+}
+
+function override_json(xhr){
+    //prevents xml parse error in firefox when loaded locally (file://..)
+    if (xhr.overrideMimeType)
+      xhr.overrideMimeType("application/json");
+}
+
+function add_trace(csv_url, name) {
+  var chart = $('#chart2')[0]
+  load_csv(csv_url, function(csv){
+      var dates = [], prices = [];
+      parse_csv(csv, function(row){dates.push(row[4]); prices.push(+row[6])});
+      //console.log(dates)
+      console.log(prices);
+      //lines.push({x:dates,y:prices})
+      //Plotly.newPlot(document.getElementById('chart'), lines)
+  //     Plotly.newPlot(document.getElementById('chart'), [{x:dates,y:prices}])
+      Plotly.addTraces(chart, {x:dates,y:prices,name:name});
+      align_chart();
+   })
+}

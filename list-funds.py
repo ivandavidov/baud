@@ -41,7 +41,7 @@ for t in tree.xpath('..//div[@class="fond_div"]/a'):
     lat_name = translate(bg_name).strip().replace(' ', '-')
     lat_name = re.sub('--+', '-', lat_name)
 
-    print(fund_id, bg_name, lat_name)
+    print fund_id, bg_name, lat_name
     comma_sep += fund_id + ',' + bg_name + ',' + lat_name + '\n'
     to_json.append((fund_id, bg_name, lat_name))
 with open('funds.csv', 'wb') as f:
@@ -50,4 +50,4 @@ with open('funds.csv', 'wb') as f:
 import json
 with open('website/funds.json', 'w') as f:
     json.dump(to_json, f)
-print ('wrote funds.csv, website/funds.json')
+print 'wrote funds.csv, website/funds.json'

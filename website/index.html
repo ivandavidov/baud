@@ -6,40 +6,35 @@
   <script src="js/main.js"></script>
   <link rel="stylesheet" type="text/css" href="css/main.css"></link>
   <link rel="icon" type="image/png" href="img/favicon.png"></link>
-  <script type='text/javascript'>
-    function override_json(xhr){
-      //prevents xml parse error in firefox when loaded locally (file://..)
-      if (xhr.overrideMimeType) {
-        xhr.overrideMimeType("application/json");
-      }
-    }
-    
-    function fundsLoaded(funds) {
-      //console.log(funds)
-      var fundsel = jQuery("#fundselect").append($('<option>').text('Изберете фонд'));
-      
-      for (var i = 0, n = funds.length; i < n; ++i) {
-        //console.log(funds[i]);
-        fundsel.append(jQuery("<option>", {value: funds[i][0], dir: funds[i][2]}).text(funds[i][1]));
-      }
-      
-      fundsel.on('change',
-        function(){
-          var opt = fundsel[0].options[fundsel[0].selectedIndex];
-          var dir = opt.getAttribute('dir');
-          console.log('changed ' + dir);
-          document.location.href = dir ? "#" + dir : 'index.html';
-          load();
-         }
-      );
-    }
-    
-    function loadFunds() {
-      jQuery.ajax({url:'funds.json', success: fundsLoaded, beforeSend: override_json})
-    }
-    
-    $(loadFunds)
-  </script>
+<script type='text/javascript'>
+function override_json(xhr){
+	//prevents xml parse error in firefox when loaded locally (file://..)
+    if (xhr.overrideMimeType)
+      xhr.overrideMimeType("application/json");
+}
+function fundsLoaded(funds) {
+  //console.log(funds)
+  var fundsel = jQuery("#fundselect").append($('<option>').text('Изберете фонд'));
+  for (var i = 0, n = funds.length; i < n; ++i) {
+    //console.log(funds[i]);
+    fundsel.append(jQuery("<option>", {value: funds[i][0], dir: funds[i][2]}).text(funds[i][1]));
+
+  }
+  fundsel.on('change',
+	     function(){
+	       var opt = fundsel[0].options[fundsel[0].selectedIndex];
+	       var dir = opt.getAttribute('dir');
+	       console.log('changed ' + dir);
+	       document.location.href = dir ? "#"+dir : 'index.html';
+	       load();
+	     });
+}
+function loadFunds() {
+	jQuery.ajax({url:'funds.json', success: fundsLoaded, beforeSend: override_json})
+}
+$(loadFunds)
+
+</script>
 </head>
 <body>
   <div id="all">
@@ -90,7 +85,7 @@
           </li>
         </ul>
       </nav>
-      <select id=fundselect></select>
+      <select id=fundselect></select> <a href=compare.html>Сравняване</a>
       <div id="contact">
         За контакти: <a target="_blank" href="http://linkedin.com/in/ivandavidov" class="link">Иван Давидов</a>
       </div>

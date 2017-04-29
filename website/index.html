@@ -6,35 +6,38 @@
   <script src="js/main.js"></script>
   <link rel="stylesheet" type="text/css" href="css/main.css"></link>
   <link rel="icon" type="image/png" href="img/favicon.png"></link>
-<script type='text/javascript'>
-function override_json(xhr){
-	//prevents xml parse error in firefox when loaded locally (file://..)
-    if (xhr.overrideMimeType)
-      xhr.overrideMimeType("application/json");
-}
-function fundsLoaded(funds) {
-  //console.log(funds)
-  var fundsel = jQuery("#fundselect").append($('<option>').text('Изберете фонд'));
-  for (var i = 0, n = funds.length; i < n; ++i) {
-    //console.log(funds[i]);
-    fundsel.append(jQuery("<option>", {value: funds[i][0], dir: funds[i][2]}).text(funds[i][1]));
+  <script type='text/javascript'>
+    function override_json(xhr){
+      //prevents xml parse error in firefox when loaded locally (file://..)
+      if (xhr.overrideMimeType)
+        xhr.overrideMimeType("application/json");
+    }
 
-  }
-  fundsel.on('change',
-	     function(){
-	       var opt = fundsel[0].options[fundsel[0].selectedIndex];
-	       var dir = opt.getAttribute('dir');
-	       console.log('changed ' + dir);
-	       document.location.href = dir ? "#"+dir : 'index.html';
-	       load();
-	     });
-}
-function loadFunds() {
-	jQuery.ajax({url:'funds.json', success: fundsLoaded, beforeSend: override_json})
-}
-$(loadFunds)
+    function fundsLoaded(funds) {
+      //console.log(funds)
+      var fundsel = jQuery("#fundselect").append($('<option>').text('Изберете фонд'));
+      for (var i = 0, n = funds.length; i < n; ++i) {
+        //console.log(funds[i]);
+        fundsel.append(jQuery("<option>", {value: funds[i][0], dir: funds[i][2]}).text(funds[i][1]));
 
-</script>
+      }
+
+      fundsel.on('change',
+        function(){
+          var opt = fundsel[0].options[fundsel[0].selectedIndex];
+          var dir = opt.getAttribute('dir');
+          console.log('changed ' + dir);
+          document.location.href = dir ? "#" + dir : 'index.html';
+          load();
+        });
+    }
+
+    function loadFunds() {
+      jQuery.ajax({url:'funds.json', success: fundsLoaded, beforeSend: override_json})
+    }
+
+    $(loadFunds)
+  </script>
 </head>
 <body>
   <div id="all">
@@ -43,44 +46,44 @@ $(loadFunds)
         <ul>
           <li><a href="" onclick="javascript:return false;">ДСК</a>
             <ul>
-              <script id="dsk-balans">generateMenu('dsk-balans', 'ДСК Баланс');</script>
-              <script id="dsk-rastej">generateMenu('dsk-rastej', 'ДСК Растеж');</script>
+              <script id="DF-DSK-Balans">generateMenu('DF-DSK-Balans', 'ДСК Баланс');</script>
+              <script id="DF-DSK-Rastezh">generateMenu('DF-DSK-Rastezh', 'ДСК Растеж');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Елана</a>
             <ul>
-              <script id="elana-balansiran-evro-fond">generateMenu('elana-balansiran-evro-fond', 'Елана Балансиран Евро Фонд');</script>
-              <script id="elana-bulgaria">generateMenu('elana-bulgaria', 'Елана България');</script>
+              <script id="DF-Elana-Balansiran-Evro-Fond">generateMenu('DF-Elana-Balansiran-Evro-Fond', 'Елана Балансиран Евро Фонд');</script>
+              <script id="DF-Elana-Bylgariya">generateMenu('DF-Elana-Bylgariya', 'Елана България');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Капман</a>
             <ul>
-              <script id="kapman-kapital">generateMenu('kapman-kapital', 'Капман Капитал');</script>
-              <script id="kapman-maks">generateMenu('kapman-maks', 'Капман Макс');</script>
+              <script id="DF-Kapman-Kapital">generateMenu('DF-Kapman-Kapital', 'Капман Капитал');</script>
+              <script id="DF-Kapman-Maks">generateMenu('DF-Kapman-Maks', 'Капман Макс');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Карол</a>
             <ul>
-              <script id="advans-iztochna-evropa">generateMenu('advans-iztochna-evropa', 'Адванс Източна Европа');</script>
-              <script id="advans-invest">generateMenu('advans-invest', 'Адванс Инвест');</script>
+              <script id="DF-Advans-Iztochna-Evropa">generateMenu('DF-Advans-Iztochna-Evropa', 'Адванс Източна Европа');</script>
+              <script id="DF-Advans-Invest">generateMenu('DF-Advans-Invest', 'Адванс Инвест');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">ОББ</a>
             <ul>
-              <script id="obb-balansiran-fond">generateMenu('obb-balansiran-fond', 'ОББ Балансиран Фонд');</script>
-              <script id="obb-premium-akcii">generateMenu('obb-premium-akcii', 'ОББ Премиум Акции');</script>
+              <script id="DF-OBB-Balansiran-Fond">generateMenu('DF-OBB-Balansiran-Fond', 'ОББ Балансиран Фонд');</script>
+              <script id="DF-OBB-Premium-Akcii">generateMenu('DF-OBB-Premium-Akcii', 'ОББ Премиум Акции');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">ЦКБ</a>
             <ul>
-              <script id="ckb-aktiv">generateMenu('ckb-aktiv', 'ЦКБ Актив');</script>
-              <script id="ckb-lider">generateMenu('ckb-lider', 'ЦКБ Лидер');</script>
+              <script id="CKB-Aktiv">generateMenu('CKB-Aktiv', 'ЦКБ Актив');</script>
+              <script id="CKB-Lider">generateMenu('CKB-Lider', 'ЦКБ Лидер');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Юг Маркет</a>
             <ul>
-              <script id="iug-market-maksimum">generateMenu('iug-market-maksimum', 'Юг Маркет Максимум');</script>
-              <script id="iug-market-optimum">generateMenu('iug-market-optimum', 'Юг Маркет Оптимум');</script>
+              <script id="DF-YUg-Market-Maksimum">generateMenu('DF-YUg-Market-Maksimum', 'Юг Маркет Максимум');</script>
+              <script id="DF-YUg-Market-Optimum">generateMenu('DF-YUg-Market-Optimum', 'Юг Маркет Оптимум');</script>
             </ul>
           </li>
         </ul>
@@ -92,7 +95,7 @@ $(loadFunds)
     </div>
     <iframe id="chart" src=""></iframe>
     <script>
-    defaultMenu('obb-premium-akcii');
+    defaultMenu('DF-OBB-Premium-Akcii');
     </script>
   </div>
   <script>

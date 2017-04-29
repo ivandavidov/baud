@@ -6,4 +6,6 @@ build/**
 weekly.js
 test/**
 website/*_*.js
+website/*.json
 curl/**
+

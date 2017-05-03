@@ -89,7 +89,7 @@ function add_trace(csv_url, name) {
   var chart = $('#chart2')[0]
   load_csv(csv_url, function(csv){
       var dates = [], prices = [];
-      parse_csv(csv, function(row){dates.push(row[4]); prices.push(+row[6])});
+      parse_csv(csv, function(row){dates.push(row[0]); prices.push(+row[2])});
       //console.log(dates)
       console.log(prices);
       //lines.push({x:dates,y:prices})

@@ -47,12 +47,36 @@ function date_align(traces, date) {
 function align_chart() {
   var chart = jQuery('#chart2')[0];
   if (chart.data.length > 1) {
-   var normalized_traces = date_align(chart.data, chart.data[0].x[0])
-   //Plotly.update(chart, normalized_traces)
-   Plotly.newPlot(chart, normalized_traces)
+      var normalized_traces = date_align(chart.data, chart.data[0].x[0])
+      //Plotly.update(chart, normalized_traces)
+      newPlot(normalized_traces);
   }
 }
 
+function newPlot(traces) {
+    var chart = jQuery('#chart2')[0];
+    Plotly.newPlot(chart, traces);
+    chart.on('plotly_hover', function(data){
+	//var msg = 'drop_quotes['+currentFundId+'].add("'+data.points[0].x+'")'
+	var msg = 'fund ' + currentFundId + ' ' + data.points[0].x;
+	$('#fund-id').text(msg);
+    });
+    chart.on('plotly_click', function(data){
+	if (alignChartOnClick) {
+	    //newPlot(date_align(chart.data, data.points[0].x))
+	    var aligned_data = date_align(chart.data, data.points[0].x)
+	    //Plotly.update(chart, aligned_data)
+	    Plotly.redraw('chart2');
+	    $('#crossing-date').css({'color':''});
+	    $('#button-msg').hide();
+	    alignChartOnClick = false;
+	}
+    });
+
+    //limit initial x range to 3 years back
+    //new Date(chart.data[0].x[0]).getFullYear()
+    //Plotly.relayout(chart,{'xaxis.range':['2010-01-01', '2015-02-01']})
+}
 function fundsLoaded(funds) {
   //console.log(funds)
   var fundsel = jQuery("#fundselect")//.append($('<option>').text('Изберете фонд'));
@@ -68,15 +92,21 @@ function fundsLoaded(funds) {
 	       console.log('changed ' + fund);
 	       //document.location.href = dir ? "#"+dir : 'index.html';
 	       //load();
-	       add_trace('data/'+ fund + '-weekly.csv', opt.textContent)
+		 add_trace('data/'+ fund + '-daily.csv', opt.textContent);
+		 currentFundId = opt.value
 	     });
 }
 
 function loadFunds() {
     jQuery.ajax({url: 'funds.json', success: fundsLoaded, beforeSend: override_json})
     var chart = document.getElementById('chart2')
-    Plotly.newPlot(chart, [])
-    $("#clear").click(function(){Plotly.newPlot(chart, [])});
+    newPlot([])
+    $("#clear").click(function(){newPlot([])});
+    $('#crossing-date').click(function(){
+	$('#crossing-date').css({'color':'red'})
+	$('#button-msg').show()
+	alignChartOnClick=true
+    });
 }
 $(loadFunds)
 
@@ -93,7 +123,10 @@ $(loadFunds)
       </div>
     </div>
   <div id=chart2 style='width:90%; height:90%'></div>
-  </div>
+    </div>
+    <button id=crossing-date>Дата на пресичане</button>
+    <span style='display:none' id=button-msg>Кликнете върху графиката за да изберете дата, на която котировките се сливат = 1.</span>
+    <span id=fund-id></span>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

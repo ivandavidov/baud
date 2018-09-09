@@ -41,16 +41,34 @@ $(loadFunds)
     <div id="topnav">
       <nav id="primary_nav_wrap">
         <ul>
+          <li><a href="" onclick="javascript:return false;">Алфа</a>
+            <ul>
+              <script id="alfa-sofix-index">generateMenu('alfa-sofix-index', 'Алфа SOFIX Индекс');</script>
+            </ul>
+          </li>
           <li><a href="" onclick="javascript:return false;">ДСК</a>
             <ul>
               <script id="dsk-balans">generateMenu('dsk-balans', 'ДСК Баланс');</script>
               <script id="dsk-rastej">generateMenu('dsk-rastej', 'ДСК Растеж');</script>
+              <script id="dsk-standart">generateMenu('dsk-standart', 'ДСК Стандарт');</script>
+            </ul>
+          </li>
+          <li><a href="" onclick="javascript:return false;">Експат</a>
+            <ul>
+              <script id="expat-bulgaria-sofix-ucits-etf">generateMenu('expat-bulgaria-sofix-ucits-etf', 'Expat Bulgaria SOFIX UCITS ETF');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Елана</a>
             <ul>
               <script id="elana-balansiran-evro-fond">generateMenu('elana-balansiran-evro-fond', 'Елана Балансиран Евро Фонд');</script>
               <script id="elana-bulgaria">generateMenu('elana-bulgaria', 'Елана България');</script>
+              <script id="elana-evrofond">generateMenu('elana-evrofond', 'Елана Еврофонд');</script>
+              <script id="elana-fond-svobodni-pari">generateMenu('elana-fond-svobodni-pari', 'Елана Фонд Свободни Пари');</script>
+            </ul>
+          </li>
+          <li><a href="" onclick="javascript:return false;">Златен Лев</a>
+            <ul>
+              <script id="zlaten-lev-index-30">generateMenu('zlaten-lev-index-30', 'Златен Лев Индекс 30');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">Капман</a>
@@ -68,12 +86,14 @@ $(loadFunds)
           <li><a href="" onclick="javascript:return false;">ОББ</a>
             <ul>
               <script id="obb-balansiran-fond">generateMenu('obb-balansiran-fond', 'ОББ Балансиран Фонд');</script>
+              <script id="obb-platinum-obligacii">generateMenu('obb-platinum-obligacii', 'ОББ Платинум Облигации');</script>
               <script id="obb-premium-akcii">generateMenu('obb-premium-akcii', 'ОББ Премиум Акции');</script>
             </ul>
           </li>
           <li><a href="" onclick="javascript:return false;">ЦКБ</a>
             <ul>
               <script id="ckb-aktiv">generateMenu('ckb-aktiv', 'ЦКБ Актив');</script>
+              <script id="ckb-garant">generateMenu('ckb-garant', 'ЦКБ Гарант');</script>
               <script id="ckb-lider">generateMenu('ckb-lider', 'ЦКБ Лидер');</script>
             </ul>
           </li>
